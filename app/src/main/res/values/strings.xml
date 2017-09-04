@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">Alarm Notification</string>
+
+    <string name="title_reminder">Quiz Reminder</string>
+    <string name="summary_reminder">Set a daily reminder to take the quiz.</string>
+    <string name="title_alarm">Reminder Time</string>
+    <string name="summary_alarm">Time of day when quiz reminder should trigger</string>
+
+    <string name="notification_title">Quiz Reminder</string>
+    <string name="notification_text">Would you like to play the quiz today?</string>
+
+    <string name="pref_key_reminder" translatable="false">key_reminder</string>
+    <string name="pref_key_alarm" translatable="false">key_alarm</string>
+</resources>
