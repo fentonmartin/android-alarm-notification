@@ -17,8 +17,5 @@ public class MainActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MainFragment())
                 .commit();
-
-        Log.d(getClass().getSimpleName(), "Reminder: MainActivity onCreate AlarmReceiver.scheduleAlarm");
-        AlarmReceiver.scheduleAlarm(getApplicationContext());
     }
 }

@@ -48,8 +48,8 @@ public class MainFragment extends PreferenceFragment {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 currValue = listPreference.getValue();
-
                 Log.d("PREF onPreferenceClick", "ListPreference >>> " + currValue);
+
                 preferences.edit().putString(getString(R.string.pref_key_alarm), currValue).apply();
                 check();
                 return true;
