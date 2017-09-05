@@ -77,6 +77,19 @@ public class MainFragment extends PreferenceFragment {
                 preferences.edit().putString(getString(R.string.pref_key_alarm),
                         listPreference.getValue()).apply();
                 check();
+
+                // Update Shared Preference
+                Log.d("PREF", "scheduleAlarm Initiated");
+                preferences.edit()
+                        .putBoolean(getString(R.string.pref_key_reminder),
+                                switchPreference.isChecked())
+                        .apply();
+
+                // Add initiate scheduleAlarm
+                Log.d("PREF", "Default Shared Preferences - Remainder: " + preferences
+                        .getBoolean(getString(R.string.pref_key_reminder), false));
+                AlarmReceiver.scheduleAlarm(getActivity().getApplicationContext());
+
                 return true;
             }
         });
