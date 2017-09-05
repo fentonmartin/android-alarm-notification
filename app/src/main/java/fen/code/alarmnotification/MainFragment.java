@@ -10,6 +10,8 @@ import android.preference.SwitchPreference;
 import android.util.Log;
 import android.widget.Toast;
 
+import fen.code.alarmnotification.reminders.AlarmReceiver;
+
 public class MainFragment extends PreferenceFragment {
 
     ListPreference listPreference;
@@ -71,6 +73,9 @@ public class MainFragment extends PreferenceFragment {
                 Toast.makeText(getActivity().getApplicationContext(),
                         ">>> " + currValue, Toast.LENGTH_SHORT).show();
                 Log.d("PREF onPreferenceChange", currValue);
+
+                preferences.edit().putString(getString(R.string.pref_key_alarm),
+                        listPreference.getValue()).apply();
                 check();
                 return true;
             }
@@ -80,6 +85,12 @@ public class MainFragment extends PreferenceFragment {
     }
 
     private void check() {
+        Log.d("PREF ALL", preferences.getBoolean(getString(R.string.pref_key_reminder), false) +
+                " " + preferences.getString(getString(R.string.pref_key_alarm), "12:00"));
+
+        preferences.edit().putString(getString(R.string.pref_key_alarm),
+                listPreference.getValue()).apply();
+
         Log.d("PREF ALL", preferences.getBoolean(getString(R.string.pref_key_reminder), false) +
                 " " + preferences.getString(getString(R.string.pref_key_alarm), "12:00"));
     }
