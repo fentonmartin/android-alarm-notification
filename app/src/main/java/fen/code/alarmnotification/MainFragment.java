@@ -8,7 +8,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.SwitchPreference;
 import android.util.Log;
-import android.widget.Toast;
 
 import fen.code.alarmnotification.reminders.AlarmReceiver;
 
@@ -17,79 +16,42 @@ public class MainFragment extends PreferenceFragment {
     ListPreference listPreference;
     SharedPreferences preferences;
     SwitchPreference switchPreference;
+    String currValue;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.preferences);
 
-        preferences = PreferenceManager
-                .getDefaultSharedPreferences(getActivity().getApplicationContext());
+        preferences = PreferenceManager.getDefaultSharedPreferences
+                (getActivity().getApplicationContext());
 
-        switchPreference = (SwitchPreference)
-                findPreference(getString(R.string.pref_key_reminder));
-        Log.d("PREF SWITCH", ">> " + switchPreference.isChecked());
+        switchPreference = (SwitchPreference) findPreference(getString(R.string.pref_key_reminder));
+        Log.d("PREF onPreferenceClick", "SwitchPreference >> " + switchPreference.isChecked());
 
         switchPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                Log.d("PREF SWITCH", ">> " + switchPreference.isChecked());
+                Log.d("PREF onPreferenceClick", "SwitchPreference >> " + switchPreference.isChecked());
 
-                preferences.edit().putBoolean(getString(R.string.pref_key_reminder),
-                        switchPreference.isChecked()).apply();
-
+                preferences.edit().putBoolean(getString(R.string.pref_key_reminder), switchPreference.isChecked()).apply();
                 check();
                 return true;
             }
         });
 
-        listPreference = (ListPreference)
-                findPreference(getString(R.string.pref_key_alarm));
+        listPreference = (ListPreference) findPreference(getString(R.string.pref_key_alarm));
+        currValue = listPreference.getValue();
 
-        String currValue = listPreference.getValue();
-        Toast.makeText(getActivity().getApplicationContext(),
-                ">>> " + currValue, Toast.LENGTH_SHORT).show();
-        Log.d("PREF onCreate", currValue);
-
+        Log.d("PREF onPreferenceClick", "ListPreference >>> " + currValue);
         listPreference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                String currValue = listPreference.getValue();
-                Toast.makeText(getActivity().getApplicationContext(),
-                        ">>> " + currValue, Toast.LENGTH_SHORT).show();
-                Log.d("PREF onPreferenceClick", currValue);
+                currValue = listPreference.getValue();
 
-                preferences.edit().putString(getString(R.string.pref_key_alarm),
-                        listPreference.getValue()).apply();
-
+                Log.d("PREF onPreferenceClick", "ListPreference >>> " + currValue);
+                preferences.edit().putString(getString(R.string.pref_key_alarm), currValue).apply();
                 check();
-                return true;
-            }
-        });
-        listPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object o) {
-                String currValue = listPreference.getValue();
-                Toast.makeText(getActivity().getApplicationContext(),
-                        ">>> " + currValue, Toast.LENGTH_SHORT).show();
-                Log.d("PREF onPreferenceChange", currValue);
-
-                preferences.edit().putString(getString(R.string.pref_key_alarm),
-                        listPreference.getValue()).apply();
-                check();
-
-                // Update Shared Preference
-                Log.d("PREF", "scheduleAlarm Initiated");
-                preferences.edit()
-                        .putBoolean(getString(R.string.pref_key_reminder),
-                                switchPreference.isChecked())
-                        .apply();
-
-                // Add initiate scheduleAlarm
-                Log.d("PREF", "Default Shared Preferences - Remainder: " + preferences
-                        .getBoolean(getString(R.string.pref_key_reminder), false));
-                AlarmReceiver.scheduleAlarm(getActivity().getApplicationContext());
-
                 return true;
             }
         });
@@ -98,13 +60,11 @@ public class MainFragment extends PreferenceFragment {
     }
 
     private void check() {
-        Log.d("PREF ALL", preferences.getBoolean(getString(R.string.pref_key_reminder), false) +
-                " " + preferences.getString(getString(R.string.pref_key_alarm), "12:00"));
+        Log.d("PREF", "Shared Preferences - Remainder: " +
+                preferences.getBoolean(getString(R.string.pref_key_reminder), false) + " : " +
+                preferences.getString(getString(R.string.pref_key_alarm), "default"));
 
-        preferences.edit().putString(getString(R.string.pref_key_alarm),
-                listPreference.getValue()).apply();
-
-        Log.d("PREF ALL", preferences.getBoolean(getString(R.string.pref_key_reminder), false) +
-                " " + preferences.getString(getString(R.string.pref_key_alarm), "12:00"));
+        // Add initiate scheduleAlarm
+        AlarmReceiver.scheduleAlarm(getActivity().getApplicationContext());
     }
 }
