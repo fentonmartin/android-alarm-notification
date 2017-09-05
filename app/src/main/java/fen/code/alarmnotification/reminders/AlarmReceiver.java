@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -63,7 +64,12 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
 
             Log.d(TAG, "Scheduling quiz reminder alarm");
-            manager.setExact(AlarmManager.RTC, startTime.getTimeInMillis(), operation);
+
+            // Set time to Alarm Manager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+                manager.setExactAndAllowWhileIdle(AlarmManager.RTC, startTime.getTimeInMillis(), operation);
+            else
+                manager.setExact(AlarmManager.RTC, startTime.getTimeInMillis(), operation);
         } else {
             Log.d(TAG, "Disabling quiz reminder alarm");
             manager.cancel(operation);
