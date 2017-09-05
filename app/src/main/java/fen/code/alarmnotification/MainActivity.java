@@ -2,6 +2,9 @@ package fen.code.alarmnotification;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
+import fen.code.alarmnotification.reminders.AlarmReceiver;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,5 +17,8 @@ public class MainActivity extends AppCompatActivity {
         getFragmentManager().beginTransaction()
                 .replace(android.R.id.content, new MainFragment())
                 .commit();
+
+        Log.d(getClass().getSimpleName(), "Reminder: MainActivity onCreate AlarmReceiver.scheduleAlarm");
+        AlarmReceiver.scheduleAlarm(getApplicationContext());
     }
 }

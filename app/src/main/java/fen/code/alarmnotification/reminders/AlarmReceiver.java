@@ -21,6 +21,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.d(TAG, "AlarmReceiver: onReceive");
         //Schedule alarm on BOOT_COMPLETED
         if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
             scheduleAlarm(context);
@@ -29,6 +30,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     /* Schedule the alarm based on user preferences */
     public static void scheduleAlarm(Context context) {
+        Log.d(TAG, "AlarmReceiver: scheduleAlarm");
         AlarmManager manager = AlarmManagerProvider.getAlarmManager(context);
 
         String keyReminder = context.getString(R.string.pref_key_reminder);

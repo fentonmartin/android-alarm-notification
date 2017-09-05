@@ -6,7 +6,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import fen.code.alarmnotification.MainActivity;
 import fen.code.alarmnotification.R;
@@ -22,7 +24,15 @@ public class ReminderService extends IntentService {
     }
 
     @Override
+    public void onStart(@Nullable Intent intent, int startId) {
+        super.onStart(intent, startId);
+
+        Log.d(TAG, "ReminderService: onStart");
+    }
+
+    @Override
     protected void onHandleIntent(Intent intent) {
+        Log.d(TAG, "ReminderService: onHandleIntent");
 
         //Present a notification to the user
         NotificationManager manager =
